@@ -43,4 +43,10 @@ public class CarServiceImpl implements CarService {
     public void insertCar(Car car) {
         carDao.insertCar(car);
     }
+
+    @Override
+    public List<Car> findByLikeCarName(String carName, int start, int length) {
+        String carNameStr = "%"+ carName +"%";
+        return carDao.findByLikeCarName(carNameStr ,start,length);
+    }
 }

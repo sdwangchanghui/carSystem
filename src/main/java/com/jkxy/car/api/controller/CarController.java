@@ -4,8 +4,10 @@ import com.jkxy.car.api.pojo.Car;
 import com.jkxy.car.api.service.CarService;
 import com.jkxy.car.api.utils.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -84,5 +86,23 @@ public class CarController {
     public JSONResult insertCar(Car car) {
         carService.insertCar(car);
         return JSONResult.ok();
+    }
+
+
+    /**
+     * 通过车名查询
+     *
+     * @return
+     */
+    @GetMapping("findByLikeCarName")
+    public JSONResult findBylikeCarName(@RequestParam("carName") String carName,@RequestParam("start") String start, @RequestParam("end") String end) {
+        int startInt = (start ==null) ? 0: Integer.parseInt(start);
+        int endInt = (end ==null) ? 0: Integer.parseInt(end);
+
+        if( endInt-startInt < 0){
+            return JSONResult.errorException("输入参数错误！ 开始数量应大于截至数据");
+        }
+        List<Car> cars = carService.findByLikeCarName(carName,startInt,endInt-startInt);
+        return JSONResult.ok(cars);
     }
 }

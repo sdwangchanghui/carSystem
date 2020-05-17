@@ -18,4 +18,7 @@ public interface CarService {
     void updateById(Car car);
 
     void insertCar(Car car);
+
+    List<Car> findByLikeCarName(String carName,int start, int length);
+
 }
